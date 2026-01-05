@@ -1,0 +1,246 @@
+.twod-canvas {
+    width: 512px;
+    height: 512px;
+    background-size: 16px 16px;
+    background-color: #ffffff;
+    margin: 2rem auto;
+}
+
+@media (max-width: 768px) {
+    .twod-canvas {
+        margin-top: 25vh;
+        width: 256px;
+        height: 256px;
+    }
+}
+
+.sub-panel {
+    position: absolute;
+    top: 18vh; /* align with toolbar */
+    left: 8vw; /* next to main panel */
+    width: 15vw;
+    max-height: 600px;
+    background: rgba(20, 20, 30, 0.9);
+    backdrop-filter: blur(20px);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    padding: 1rem;
+    overflow-y: auto;
+    display: none;
+    z-index: 10;
+    color: #fff;
+    font-family: 'Segoe UI', sans-serif;
+    transition: all 0.25s ease;
+}
+
+.sub-panel.active {
+    display: block;
+    transform: translateX(0);
+    opacity: 1;
+}
+
+/* Header */
+.sub-panel .panel-header {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Brush grid */
+.brush-grid {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.brush-item {
+    width: 60px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.brush-item img {
+    width: 15vw;
+    height: 10vh;
+    border-radius: 8px;
+    border: 2px solid transparent;
+}
+
+.brush-item span {
+    display: block;
+    font-size: 0.75rem;
+    margin-top: 0.2rem;
+}
+
+.brush-item.active img {
+    border-color: #ffcc00;
+    box-shadow: 0 0 8px #ffcc00;
+    transform: scale(1.05);
+}
+
+/* Brush sliders */
+.brush-section {
+    margin-bottom: 1rem;
+}
+
+.brush-section label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+}
+
+.brush-section input[type=range] {
+    width: 100%;
+}
+
+/* Scrollbar for panel */
+.sub-panel::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sub-panel::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 3px;
+}
+
+/* Color picker section */
+.color-picker-section {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+.color-picker-section input[type="color"] {
+    width: 48px;
+    height: 48px;
+    border: none;
+    border-radius: 10px;
+    background: none;
+    cursor: pointer;
+}
+
+.color-value {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* Swatches */
+.swatch-section h4 {
+    font-size: 0.85rem;
+    margin-bottom: 0.4rem;
+    opacity: 0.8;
+}
+
+.swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.5rem;
+}
+
+.swatch {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 2px solid rgba(255,255,255,0.15);
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.swatch:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 8px rgba(255,255,255,0.3);
+}
+
+.swatch.empty {
+    background: rgba(255,255,255,0.05);
+    border: 2px dashed rgba(255,255,255,0.15);
+}
+
+/* Layers list */
+.layers-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 0.8rem;
+}
+
+.layer-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.05);
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.layer-item:hover {
+    background: rgba(255,255,255,0.08);
+}
+
+.layer-item.active {
+    background: rgba(255,255,255,0.12);
+}
+
+.layer-thumb {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.2),
+        rgba(255,255,255,0.05)
+    );
+}
+
+.layer-item span {
+    flex: 1;
+    font-size: 0.85rem;
+}
+
+.layer-visibility {
+    opacity: 0.7;
+}
+
+.layer-visibility:hover {
+    opacity: 1;
+}
+
+/* Bottom action bar */
+.layers-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.4rem;
+    padding-top: 0.4rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.layers-actions button {
+    flex: 1;
+    background: rgba(255,255,255,0.05);
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 0;
+    color: inherit;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+}
+
+.layers-actions button:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.layers-actions button:active {
+    transform: scale(0.95);
+}
+
+
+

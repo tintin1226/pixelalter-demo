@@ -1,0 +1,229 @@
+/* ----- Global Styles ----- */
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  background-image:
+    linear-gradient(135deg, #000000, #2e0a47);
+  /* bottom layer */
+
+  color: #FFFFFF;
+}
+
+/* ----- Header (Sticky Glass) ----- */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 10vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  z-index: 1001;
+}
+
+/* ----- Logo ----- */
+header .logo {
+  height: 10vh;
+  display: block;
+  padding-left: 3rem;
+}
+
+/* ----- Header Actions ----- */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-right: 1rem;
+  /* extra space from right edge */
+}
+
+/* Subscribe Button */
+.subscribe-btn {
+  background: #b29fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.subscribe-btn:hover {
+  background: #ffe47a;
+}
+
+/* Account Icon */
+.account-icon {
+  font-size: 2rem;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Hamburger */
+.hamburger {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Hide mobile nav by default */
+.mobile-nav {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  top: 10vh;
+  /* below header */
+  right: 1rem;
+  background: rgba(0, 0, 0, 0.388);
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+
+  .mobile-nav.show {
+    display: flex;
+    animation: slideDown 0.3s ease forwards;
+  }
+
+  .mobile-nav a {
+    margin: 0.2rem 0;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .mobile-nav a:hover {
+    background: #ffe47a;
+    color: #190038;
+    transform: scale(1.05);
+  }
+
+  #premium-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+#premium-modal .modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5); /* dim the background */
+  backdrop-filter: blur(6px); /* blur everything behind */
+  transition: opacity 0.3s ease;
+  opacity: 0;
+}
+
+#premium-modal .modal-content {
+  position: relative;
+  background: #222;
+  color: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  z-index: 1001;
+  text-align: center;
+}
+
+#premium-modal .close-modal {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+#premium-modal .plan-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+#premium-modal .plan-btn {
+  background: #444;
+  border: none;
+  padding: 0.5rem 1rem;
+  color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#premium-modal .plan-btn.active {
+  background: #8a2be2;
+}
+
+#premium-modal .plan-price {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+#premium-modal .premium-perks {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+#premium-modal .premium-perks li {
+  margin: 0.5rem 0;
+}
+
+#premium-modal .premium-perks i {
+  color: #8a2be2;
+  margin-right: 0.5rem;
+}
+
+#premium-modal .subscribe-now {
+  background: #8a2be2;
+  border: none;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#premium-modal .subscribe-now:hover {
+  background: #ffe47a;
+}
+
+
+/* Show on mobile only */
+@media (max-width: 768px) {
+  header .logo {
+    height: 9vh;
+    padding-left: 1rem;
+  }
+}
+
+@keyframes slideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
