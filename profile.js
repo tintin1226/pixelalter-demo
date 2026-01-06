@@ -21,7 +21,7 @@ function loadUserProfile() {
         <span class="label">Projects</span>
       </div>
       <div class="stat">
-        <span class="number">5</span>
+        <span class="number">3</span>
         <span class="label">Assets Sold</span>
       </div>
       <div class="stat">
@@ -279,4 +279,5 @@ function loadUserProfile() {
     uploadForm.style.display = 'none';
     myAssets.style.display = 'block';
   });
+
 }
