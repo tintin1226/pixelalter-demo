@@ -177,10 +177,12 @@ function loadProjectsPage() {
     modal.style.display = "flex";
   });
 
-  // Open modal when clicking empty project card
-  emptyCard.addEventListener("click", () => {
-    modal.style.display = "flex";
-  });
+  // Open modal when clicking empty project card (if exists)
+  if (emptyCard) {
+    emptyCard.addEventListener("click", () => {
+      modal.style.display = "flex";
+    });
+  }
 
   // Close modal
   closeBtn.addEventListener("click", () => {
