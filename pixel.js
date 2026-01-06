@@ -95,8 +95,74 @@ function loadPixelPage() {
 
             <button class="apply-canvas-btn">Apply</button>
         </div>
+
+        <div class="sub-panel" id="color-panel">
+            <div class="panel-header">
+                Color
+                <i class="bi bi-droplet-fill"></i>
+            </div>
+
+            <!-- Color Picker -->
+            <div class="color-picker-section">
+                <input type="color" value="#ff0000">
+                <span class="color-value">#FF0000</span>
+            </div>
+
+            <!-- Swatches -->
+            <div class="swatch-section">
+                <h4>Swatches</h4>
+                <div class="swatch-grid">
+                    <div class="swatch" style="background:#000000"></div>
+                    <div class="swatch" style="background:#ffffff"></div>
+                    <div class="swatch" style="background:#ff4757"></div>
+                    <div class="swatch" style="background:#1e90ff"></div>
+                    <div class="swatch" style="background:#2ed573"></div>
+                    <div class="swatch" style="background:#ffa502"></div>
+
+                    <!-- Empty / implied slots -->
+                    <div class="swatch empty"></div>
+                    <div class="swatch empty"></div>
+                    <div class="swatch empty"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sub-panel" id="layers-panel">
+            <div class="panel-header">
+                Layers
+                <i class="bi bi-layers-fill"></i>
+            </div>
+
+            <div class="layers-list">
+                <div class="layer-item active">
+                    <div class="layer-thumb"></div>
+                    <span>Layer 1</span>
+                    <i class="bi bi-eye-fill layer-visibility"></i>
+                </div>
+
+                <div class="layer-item">
+                    <div class="layer-thumb"></div>
+                    <span>Layer 2</span>
+                    <i class="bi bi-eye-fill layer-visibility"></i>
+                </div>
+            </div>
+
+            <div class="layers-actions">
+                <button title="Add Layer"><i class="bi bi-plus-lg"></i></button>
+                <button title="Duplicate Layer"><i class="bi bi-files"></i></button>
+                <button title="Add Image"><i class="bi bi-camera"></i></button>
+                <button title="Delete Layer"><i class="bi bi-trash"></i></button>
+            </div>
+        </div>
     </section>
   `;
+
+    // Helper function to close all sub-panels
+    function closeAllDrawSubPanels() {
+        document.getElementById('color-panel')?.classList.remove('active');
+        document.getElementById('layers-panel')?.classList.remove('active');
+    }
+
     // Shared panel toggle function
     function toggleSharedPanel(panel, button, contentHTML, extraClass = '') {
         button.addEventListener('click', () => {
@@ -104,7 +170,8 @@ function loadPixelPage() {
             if (panel.classList.contains('active') && panel.dataset.activeTool === button.className) {
                 panel.classList.remove('active', 'draw-active', 'assets-active');
                 panel.dataset.activeTool = '';
-                panel.querySelector('.panel-content').innerHTML = ''; // clear content
+                panel.querySelector('.panel-content').innerHTML = '';
+                closeAllDrawSubPanels();
             } else {
                 // Otherwise, show panel with new content
                 panel.classList.add('active');
@@ -120,19 +187,20 @@ function loadPixelPage() {
 
     const panel = document.getElementById('tool-panel');
     panel.dataset.activeTool = ''; // track which tool opened it
+    
     // Draw tool
     const drawBtn = document.querySelector('.tool-draw');
     toggleSharedPanel(
         panel,
         drawBtn,
         `
-    <button class="sub-tool" title="Brush"><i class="bi bi-pencil-fill"></i></button>
+    <button class="sub-tool" id="brush-tool" title="Brush"><i class="bi bi-pencil-fill"></i></button>
     <button class="sub-tool" title="Eraser"><i class="bi bi-eraser-fill"></i></button>
     <button class="sub-tool" title="Bucket"><i class="bi bi-droplet-fill"></i></button>
     <button class="sub-tool" title="Lasso"><i class="bi bi-vector-pen"></i></button>
-    <button class="sub-tool" title="Color Picker" style="color: red;"><i class="bi bi-square-fill"></i></button>
+    <button class="sub-tool" id="color-tool" title="Color Picker" style="color: red;"><i class="bi bi-square-fill"></i></button>
     <button class="sub-tool" title="Eyedropper"><i class="bi bi-eyedropper"></i></button>
-    <button class="sub-tool" title="Layers"><i class="bi bi-layers-fill"></i></button>
+    <button class="sub-tool" id="layers-tool" title="Layers"><i class="bi bi-layers-fill"></i></button>
     `,
         'draw-active'
     );
@@ -205,5 +273,39 @@ function loadPixelPage() {
 
     canvasBtn.addEventListener('click', () => {
         canvasPanel.classList.toggle('active');
+    });
+
+    // Set up sub-panel listeners when draw panel is opened
+    drawBtn.addEventListener('click', () => {
+        // Wait for the DOM to update, then attach listeners
+        setTimeout(() => {
+            const colorBtn = document.getElementById('color-tool');
+            const colorPanel = document.getElementById('color-panel');
+
+            const layersBtn = document.getElementById('layers-tool');
+            const layersPanel = document.getElementById('layers-panel');
+
+            // Color tool listener
+            if (colorBtn && !colorBtn.dataset.listenerAttached) {
+                colorBtn.dataset.listenerAttached = 'true';
+                colorBtn.addEventListener('click', () => {
+                    // Close other sub-panels
+                    layersPanel.classList.remove('active');
+                    // Toggle color panel
+                    colorPanel.classList.toggle('active');
+                });
+            }
+
+            // Layers tool listener
+            if (layersBtn && !layersBtn.dataset.listenerAttached) {
+                layersBtn.dataset.listenerAttached = 'true';
+                layersBtn.addEventListener('click', () => {
+                    // Close other sub-panels
+                    colorPanel.classList.remove('active');
+                    // Toggle layers panel
+                    layersPanel.classList.toggle('active');
+                });
+            }
+        }, 0);
     });
 }
