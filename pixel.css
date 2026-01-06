@@ -404,8 +404,8 @@
     
     .side-panel {
         width: 20vw;
-        top: 20vh;
-        height: 70vh;
+        top: 12vh;
+        height: 90vh;
     }
     
     .side-panel.assets-active {
@@ -424,4 +424,5 @@
         left: 10vw;
         top: 15vh;
     }
+
 }
