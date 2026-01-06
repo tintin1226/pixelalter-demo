@@ -34,34 +34,43 @@ function load3dPage() {
     </div>
 
     <div class="animation-panel" id="animation-panel">
-        <div class="timeline-header">
-          <button class="anim-tool" title="Play">
-            <i class="bi bi-play-fill"></i>
+        <div class="animation-panel-header">
+          <button class="panel-collapse-btn" title="Collapse">
+            <i class="bi bi-chevron-down"></i>
           </button>
-
-          <span class="anim-time">0.00s</span>
-
-          <button class="anim-tool keyframe-btn" title="Add Keyframe">
-            <i class="bi bi-diamond-fill"></i>
-          </button>
+          <span class="panel-title-text">Animation Timeline</span>
         </div>
 
-        <div class="timeline">
-          <div class="timeline-ruler">
-            <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span>
+        <div class="animation-panel-content">
+          <div class="timeline-header">
+            <button class="anim-tool" title="Play">
+              <i class="bi bi-play-fill"></i>
+            </button>
+
+            <span class="anim-time">0.00s</span>
+
+            <button class="anim-tool keyframe-btn" title="Add Keyframe">
+              <i class="bi bi-diamond-fill"></i>
+            </button>
           </div>
 
-          <div class="timeline-track">
-            <div class="keyframe" style="left: 20%;"></div>
-            <div class="keyframe" style="left: 60%;"></div>
-          </div>
-        </div>
+          <div class="timeline">
+            <div class="timeline-ruler">
+              <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span>
+            </div>
 
-        <div class="animation-tools">
-            <button class="anim-tool" title="Play"><i class="bi bi-play-fill"></i></button>
-            <button class="anim-tool" title="Onion Skin"><i class="bi bi-eye-fill"></i></button>
-            <button class="anim-tool" title="Settings"><i class="bi bi-gear-fill"></i></button>
-            <span class="anim-time">0:00</span>
+            <div class="timeline-track">
+              <div class="keyframe" style="left: 20%;"></div>
+              <div class="keyframe" style="left: 60%;"></div>
+            </div>
+          </div>
+
+          <div class="animation-tools">
+              <button class="anim-tool" title="Play"><i class="bi bi-play-fill"></i></button>
+              <button class="anim-tool" title="Onion Skin"><i class="bi bi-eye-fill"></i></button>
+              <button class="anim-tool" title="Settings"><i class="bi bi-gear-fill"></i></button>
+              <span class="anim-time">0:00</span>
+          </div>
         </div>
     </div>
 
@@ -333,6 +342,7 @@ function setup3dUI() {
   // Animation panel
   const animationBtn = document.querySelector('.tool-animation');
   const animPanel = document.getElementById('animation-panel');
+  const collapseBtn = animPanel.querySelector('.panel-collapse-btn');
   
   animationBtn.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -347,7 +357,29 @@ function setup3dUI() {
     
     // Toggle animation panel
     animPanel.classList.toggle('active');
+    
+    // Reset collapsed state when opening
+    if (animPanel.classList.contains('active')) {
+      animPanel.classList.remove('collapsed');
+      collapseBtn.querySelector('i').className = 'bi bi-chevron-down';
+    }
   });
+
+  // Collapse/expand animation panel
+  if (collapseBtn) {
+    collapseBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      animPanel.classList.toggle('collapsed');
+      
+      // Toggle icon
+      const icon = collapseBtn.querySelector('i');
+      if (animPanel.classList.contains('collapsed')) {
+        icon.className = 'bi bi-chevron-up';
+      } else {
+        icon.className = 'bi bi-chevron-down';
+      }
+    });
+  }
 
   // Download panel
   const downloadBtn = document.querySelector('.tool-download');
