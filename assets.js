@@ -40,7 +40,7 @@ function loadAssetsPage() {
         <div class="asset-card premium">
           <img src="assets/sample_2.png" alt="Asset 2">
           <p class="asset-title">3D Sword</p>
-          <p class="asset-price">$5</p>
+          <p class="asset-price">₱300</p>
         </div>
 
         <div class="asset-card">
@@ -51,37 +51,37 @@ function loadAssetsPage() {
 
         <div class="asset-card">
           <img src="assets/sample_4.jpeg" alt="Asset 4">
-          <p class="asset-title">Pixel Character</p>
+          <p class="asset-title">3D house pack</p>
           <p class="asset-price">Free</p>
         </div>
 
         <div class="asset-card premium">
           <img src="assets/sample_5.jpg" alt="Asset 5">
-          <p class="asset-title">3D Sword</p>
-          <p class="asset-price">$5</p>
+          <p class="asset-title">2D Background</p>
+          <p class="asset-price">₱200</p>
         </div>
 
         <div class="asset-card">
           <img src="assets/sample_6.jpg" alt="Asset 6">
-          <p class="asset-title">2D Tree</p>
+          <p class="asset-title">Pixel Asset Pack</p>
           <p class="asset-price">Free</p>
         </div>
 
         <div class="asset-card">
           <img src="assets/sample_7.jpg" alt="Asset 7">
-          <p class="asset-title">Pixel Character</p>
+          <p class="asset-title">Pixel Environment Pack</p>
           <p class="asset-price">Free</p>
         </div>
 
         <div class="asset-card premium">
           <img src="assets/sample_8.jpg" alt="Asset 8">
-          <p class="asset-title">3D Sword</p>
-          <p class="asset-price">$5</p>
+          <p class="asset-title">3D Map</p>
+          <p class="asset-price">₱500</p>
         </div>
 
         <div class="asset-card">
           <img src="assets/sample_9.jpeg" alt="Asset 9">
-          <p class="asset-title">2D Tree</p>
+          <p class="asset-title">2D House Pack</p>
           <p class="asset-price">Free</p>
         </div>
     </div>
@@ -159,3 +159,4 @@ function loadAssetsPage() {
     load3dPage();
   });
 }
+
