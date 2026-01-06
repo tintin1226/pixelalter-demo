@@ -45,6 +45,13 @@
             mobileNav.classList.toggle('show');
         });
 
+        // Close mobile nav when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!mobileNav.contains(e.target) && !hamburger.contains(e.target)) {
+                mobileNav.classList.remove('show');
+            }
+        });
+
         const navLinks = document.querySelectorAll('.mobile-nav a');
 
         navLinks.forEach(link => {
@@ -72,9 +79,6 @@
                     break;
                 case 'profile':
                     loadUserProfile();
-                    break
-                case 'about':
-                    loadIntro();
             }
         }
 
@@ -84,6 +88,7 @@
         });
 
 
+        // Function to show Premium Subscription modal
         function showPremiumModal() {
             if (document.getElementById('premium-modal')) return;
 
@@ -194,6 +199,7 @@
         // Hook it up
         document.querySelector('.subscribe-btn').addEventListener('click', showPremiumModal);
 
+
     </script>
     <script src="index.js"></script>
     <script src="profile.js"></script>
@@ -204,8 +210,4 @@
     <script src="projects.js"></script>
 </body>
 
-
 </html>
-
-
-
