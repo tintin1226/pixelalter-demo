@@ -84,9 +84,7 @@
         });
 
 
-        // Function to show Premium Subscription modal
         function showPremiumModal() {
-            // Check if modal already exists
             if (document.getElementById('premium-modal')) return;
 
             const modal = document.createElement('div');
@@ -96,53 +94,104 @@
     <div class="modal-content">
       <button class="close-modal"><i class="bi bi-x-lg"></i></button>
       <h2>Premium Subscription</h2>
-      
+
+      <div class="tier-select">
+        <button class="tier-btn active" data-tier="starter">Starter</button>
+        <button class="tier-btn" data-tier="pro">Pro</button>
+        <button class="tier-btn" data-tier="studio">Studio</button>
+      </div>
+
       <div class="plan-toggle">
         <button class="plan-btn active" data-plan="monthly">Monthly</button>
         <button class="plan-btn" data-plan="yearly">Yearly</button>
       </div>
 
-      <div class="plan-price" id="plan-price">$4.99 / month</div>
+      <div class="plan-price" id="plan-price">₱199 / month</div>
 
-      <ul class="premium-perks">
-        <li><i class="bi bi-check-circle-fill"></i> Access to premium assets</li>
-        <li><i class="bi bi-check-circle-fill"></i> Premium export settings</li>
-        <li><i class="bi bi-check-circle-fill"></i> Sell your assets on the marketplace</li>
+      <ul class="premium-perks" id="premium-perks">
+        <li><i class="bi bi-check-circle-fill"></i> Access to selected tier assets</li>
+        <li><i class="bi bi-check-circle-fill"></i> Customizable & optimized assets</li>
         <li><i class="bi bi-check-circle-fill"></i> Priority support</li>
       </ul>
 
       <button class="subscribe-now">Subscribe Now</button>
     </div>
   `;
-
             document.body.appendChild(modal);
 
             const overlay = modal.querySelector('.modal-overlay');
             const closeBtn = modal.querySelector('.close-modal');
             const planBtns = modal.querySelectorAll('.plan-btn');
+            const tierBtns = modal.querySelectorAll('.tier-btn');
             const price = modal.querySelector('#plan-price');
+            const perks = modal.querySelector('#premium-perks');
+
+            const tierPrices = {
+                starter: { monthly: 199, yearly: 1990 },
+                pro: { monthly: 499, yearly: 4990 },
+                studio: { monthly: 1200, yearly: 12000 }
+            };
+
+            const tierPerks = {
+                starter: [
+                    'Access to starter assets',
+                    'Basic customization',
+                    'Monthly free assets'
+                ],
+                pro: [
+                    'Access to all assets',
+                    'Full customization',
+                    'Priority support',
+                    'Unlimited downloads'
+                ],
+                studio: [
+                    'All pro perks',
+                    'Commercial licenses included',
+                    'Exclusive asset packs',
+                    'Dedicated support'
+                ]
+            };
 
             // Close modal
             overlay.addEventListener('click', () => modal.remove());
             closeBtn.addEventListener('click', () => modal.remove());
+
+            let selectedTier = 'starter';
+            let selectedPlan = 'monthly';
+
+            // Tier selection
+            tierBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    tierBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    selectedTier = btn.dataset.tier;
+                    updatePriceAndPerks();
+                });
+            });
 
             // Plan toggle
             planBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
                     planBtns.forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
-                    price.textContent = btn.dataset.plan === 'monthly' ? '$4.99 / month' : '$49.99 / year';
+                    selectedPlan = btn.dataset.plan;
+                    updatePriceAndPerks();
                 });
             });
 
+            function updatePriceAndPerks() {
+                price.textContent = `₱${tierPrices[selectedTier][selectedPlan]} / ${selectedPlan}`;
+                perks.innerHTML = tierPerks[selectedTier].map(p => `<li><i class="bi bi-check-circle-fill"></i> ${p}</li>`).join('');
+            }
+
             // Subscribe action
             modal.querySelector('.subscribe-now').addEventListener('click', () => {
-                alert('Subscribed! (mock action)');
+                alert(`Subscribed to ${selectedTier.toUpperCase()} (${selectedPlan}) plan!`);
                 modal.remove();
             });
         }
 
-        // Hook it up to the header subscribe button
+        // Hook it up
         document.querySelector('.subscribe-btn').addEventListener('click', showPremiumModal);
 
     </script>
@@ -157,5 +206,6 @@
 
 
 </html>
+
 
 
