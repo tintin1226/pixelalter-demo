@@ -254,13 +254,27 @@ function cleanup3d() {
   controls = null;
 }
 
+// Helper function to close all main panels
+function closeAllMainPanels() {
+  const animPanel = document.getElementById('animation-panel');
+  const downloadPanel = document.getElementById('download-panel');
+  
+  if (animPanel) animPanel.classList.remove('active');
+  if (downloadPanel) downloadPanel.classList.remove('active');
+}
+
 function toggleSharedPanel(panel, button, contentHTML, extraClass = '') {
-  button.addEventListener('click', () => {
+  button.addEventListener('click', (e) => {
+    e.stopPropagation();
+    
+    // Close other main panels first
+    closeAllMainPanels();
+    
     // If panel is already active and this button is clicked, close it
     if (panel.classList.contains('active') && panel.dataset.activeTool === button.className) {
       panel.classList.remove('active', 'draw-active', 'assets-active');
       panel.dataset.activeTool = '';
-      panel.querySelector('.panel-content').innerHTML = ''; // clear content
+      panel.querySelector('.panel-content').innerHTML = '';
     } else {
       // Otherwise, show panel with new content
       panel.classList.add('active');
@@ -319,17 +333,41 @@ function setup3dUI() {
   // Animation panel
   const animationBtn = document.querySelector('.tool-animation');
   const animPanel = document.getElementById('animation-panel');
-  animationBtn.addEventListener('click', () => {
+  
+  animationBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    
+    // Close other panels
+    panel.classList.remove('active', 'draw-active', 'assets-active');
+    panel.dataset.activeTool = '';
+    panel.querySelector('.panel-content').innerHTML = '';
+    
+    const downloadPanel = document.getElementById('download-panel');
+    if (downloadPanel) downloadPanel.classList.remove('active');
+    
+    // Toggle animation panel
     animPanel.classList.toggle('active');
   });
 
   // Download panel
   const downloadBtn = document.querySelector('.tool-download');
   const downloadPanel = document.getElementById('download-panel');
-  downloadBtn.addEventListener('click', () => {
+  
+  downloadBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    
+    // Close other panels
+    panel.classList.remove('active', 'draw-active', 'assets-active');
+    panel.dataset.activeTool = '';
+    panel.querySelector('.panel-content').innerHTML = '';
+    
+    if (animPanel) animPanel.classList.remove('active');
+    
+    // Toggle download panel
     downloadPanel.classList.toggle('active');
   });
 
+  // Keyframe functionality
   const keyframeBtn = document.querySelector('.keyframe-btn');
   const track = document.querySelector('.timeline-track');
 
@@ -346,5 +384,27 @@ function setup3dUI() {
     });
   }
 
+  // Close panels when clicking outside
+  document.addEventListener('click', (e) => {
+    const toolPanel = document.getElementById('tool-panel');
+    const animPanel = document.getElementById('animation-panel');
+    const downloadPanel = document.getElementById('download-panel');
+    
+    // Check if click is outside all panels and toolbar buttons
+    const isClickInsidePanel = 
+      toolPanel.contains(e.target) ||
+      animPanel.contains(e.target) ||
+      downloadPanel.contains(e.target) ||
+      e.target.closest('.tool') ||
+      e.target.closest('.sub-tool');
+    
+    if (!isClickInsidePanel) {
+      // Close all panels
+      toolPanel.classList.remove('active', 'draw-active', 'assets-active');
+      toolPanel.dataset.activeTool = '';
+      toolPanel.querySelector('.panel-content').innerHTML = '';
+      animPanel.classList.remove('active');
+      downloadPanel.classList.remove('active');
+    }
+  });
 }
-
