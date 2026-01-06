@@ -164,14 +164,23 @@ function loadPixelPage() {
     }
 
     // Shared panel toggle function
-    function toggleSharedPanel(panel, button, contentHTML, extraClass = '') {
-        button.addEventListener('click', () => {
+    function toggleSharedPanel(panel, button, contentHTML, extraClass = '', toolType = '') {
+        button.addEventListener('click', (e) => {
+            e.stopPropagation();
+            
+            // Close other main panels first
+            animPanel.classList.remove('active');
+            downloadPanel.classList.remove('active');
+            canvasPanel.classList.remove('active');
+            
+            // Always close sub-panels when switching tools
+            closeAllDrawSubPanels();
+            
             // If panel is already active and this button is clicked, close it
             if (panel.classList.contains('active') && panel.dataset.activeTool === button.className) {
                 panel.classList.remove('active', 'draw-active', 'assets-active');
                 panel.dataset.activeTool = '';
                 panel.querySelector('.panel-content').innerHTML = '';
-                closeAllDrawSubPanels();
             } else {
                 // Otherwise, show panel with new content
                 panel.classList.add('active');
@@ -181,12 +190,14 @@ function loadPixelPage() {
                 // Update content without replacing the wrapper
                 panel.querySelector('.panel-content').innerHTML = contentHTML;
                 panel.dataset.activeTool = button.className;
+                panel.dataset.toolType = toolType; // Store the tool type
             }
         });
     }
 
     const panel = document.getElementById('tool-panel');
     panel.dataset.activeTool = ''; // track which tool opened it
+    panel.dataset.toolType = ''; // track tool type (draw, assets, project)
     
     // Draw tool
     const drawBtn = document.querySelector('.tool-draw');
@@ -202,7 +213,8 @@ function loadPixelPage() {
     <button class="sub-tool" title="Eyedropper"><i class="bi bi-eyedropper"></i></button>
     <button class="sub-tool" id="layers-tool" title="Layers"><i class="bi bi-layers-fill"></i></button>
     `,
-        'draw-active'
+        'draw-active',
+        'draw'
     );
 
     // Assets tool
@@ -218,7 +230,8 @@ function loadPixelPage() {
         <img src="assets/sample_7.jpg" alt="Asset 3" class="asset-thumb">
     </div>
     `,
-        'assets-active'
+        'assets-active',
+        'assets'
     );
 
     // Projects tool
@@ -227,7 +240,8 @@ function loadPixelPage() {
         panel,
         projectBtn,
         `<h3>No projects yet.</h3>`,
-        'assets-active'
+        'assets-active',
+        'project'
     );
 
     const animationBtn = document.querySelector('.tool-animation');
@@ -236,7 +250,18 @@ function loadPixelPage() {
     const addFrameBtn = animPanel.querySelector('.add-frame');
 
     // Toggle animation panel
-    animationBtn.addEventListener('click', () => {
+    animationBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        
+        // Close other panels
+        panel.classList.remove('active', 'draw-active', 'assets-active');
+        panel.dataset.activeTool = '';
+        panel.dataset.toolType = '';
+        panel.querySelector('.panel-content').innerHTML = '';
+        downloadPanel.classList.remove('active');
+        canvasPanel.classList.remove('active');
+        closeAllDrawSubPanels();
+        
         animPanel.classList.toggle('active');
     });
 
@@ -264,16 +289,50 @@ function loadPixelPage() {
     const downloadBtn = document.querySelector('.tool-download');
     const downloadPanel = document.getElementById('download-panel');
 
-    downloadBtn.addEventListener('click', () => {
+    downloadBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        
+        // Close other panels
+        panel.classList.remove('active', 'draw-active', 'assets-active');
+        panel.dataset.activeTool = '';
+        panel.dataset.toolType = '';
+        panel.querySelector('.panel-content').innerHTML = '';
+        animPanel.classList.remove('active');
+        canvasPanel.classList.remove('active');
+        closeAllDrawSubPanels();
+        
         downloadPanel.classList.toggle('active');
     });
 
     const canvasBtn = document.querySelector('.tool-canvas');
     const canvasPanel = document.getElementById('canvas-panel');
 
-    canvasBtn.addEventListener('click', () => {
+    canvasBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        
+        // Close other panels
+        panel.classList.remove('active', 'draw-active', 'assets-active');
+        panel.dataset.activeTool = '';
+        panel.dataset.toolType = '';
+        panel.querySelector('.panel-content').innerHTML = '';
+        animPanel.classList.remove('active');
+        downloadPanel.classList.remove('active');
+        closeAllDrawSubPanels();
+        
         canvasPanel.classList.toggle('active');
     });
+
+    // Helper function to close all panels
+    function closeAllPanels() {
+        panel.classList.remove('active', 'draw-active', 'assets-active');
+        panel.dataset.activeTool = '';
+        panel.dataset.toolType = '';
+        panel.querySelector('.panel-content').innerHTML = '';
+        animPanel.classList.remove('active');
+        downloadPanel.classList.remove('active');
+        canvasPanel.classList.remove('active');
+        closeAllDrawSubPanels();
+    }
 
     // Set up sub-panel listeners when draw panel is opened
     drawBtn.addEventListener('click', () => {
@@ -284,28 +343,57 @@ function loadPixelPage() {
 
             const layersBtn = document.getElementById('layers-tool');
             const layersPanel = document.getElementById('layers-panel');
-
-            // Color tool listener
+            
+            // Color tool listener - only works when draw tool is active
             if (colorBtn && !colorBtn.dataset.listenerAttached) {
                 colorBtn.dataset.listenerAttached = 'true';
-                colorBtn.addEventListener('click', () => {
-                    // Close other sub-panels
-                    layersPanel.classList.remove('active');
-                    // Toggle color panel
-                    colorPanel.classList.toggle('active');
+                colorBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    // Only toggle if draw tool is active
+                    if (panel.dataset.toolType === 'draw') {
+                        layersPanel.classList.remove('active');
+                        colorPanel.classList.toggle('active');
+                    }
                 });
             }
 
-            // Layers tool listener
+            // Layers tool listener - only works when draw tool is active
             if (layersBtn && !layersBtn.dataset.listenerAttached) {
                 layersBtn.dataset.listenerAttached = 'true';
-                layersBtn.addEventListener('click', () => {
-                    // Close other sub-panels
-                    colorPanel.classList.remove('active');
-                    // Toggle layers panel
-                    layersPanel.classList.toggle('active');
+                layersBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    // Only toggle if draw tool is active
+                    if (panel.dataset.toolType === 'draw') {
+                        colorPanel.classList.remove('active');
+                        layersPanel.classList.toggle('active');
+                    }
                 });
             }
         }, 0);
+    });
+
+    // Close panels when clicking outside
+    document.addEventListener('click', (e) => {
+        const toolPanel = document.getElementById('tool-panel');
+        const animPanel = document.getElementById('animation-panel');
+        const downloadPanel = document.getElementById('download-panel');
+        const canvasPanel = document.getElementById('canvas-panel');
+        const colorPanel = document.getElementById('color-panel');
+        const layersPanel = document.getElementById('layers-panel');
+        
+        // Check if click is outside all panels and toolbar buttons
+        const isClickInsidePanel = 
+            toolPanel.contains(e.target) ||
+            animPanel.contains(e.target) ||
+            downloadPanel.contains(e.target) ||
+            canvasPanel.contains(e.target) ||
+            colorPanel.contains(e.target) ||
+            layersPanel.contains(e.target) ||
+            e.target.closest('.tool') ||
+            e.target.closest('.sub-tool');
+        
+        if (!isClickInsidePanel) {
+            closeAllPanels();
+        }
     });
 }
