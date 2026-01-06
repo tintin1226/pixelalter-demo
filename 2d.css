@@ -6,19 +6,6 @@
     margin: 2rem auto;
 }
 
-@media (max-width: 768px) {
-    .twod-canvas {
-        margin-top: 25vh;
-        width: 256px;
-        height: 256px;
-    }
-
-    .sub-panel {
-        width: 50vw;
-        left: 28vw;
-    }
-}
-
 .sub-panel {
     position: absolute;
     top: 18vh; /* align with toolbar */
@@ -52,6 +39,19 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+@media (max-width: 768px) {
+    .twod-canvas {
+        margin-top: 25vh;
+        width: 256px;
+        height: 256px;
+    }
+
+    .sub-panel {
+        width: 50vw;
+        left: 28vw;
+    }
 }
 
 /* Brush grid */
@@ -246,6 +246,7 @@
 .layers-actions button:active {
     transform: scale(0.95);
 }
+
 
 
 
