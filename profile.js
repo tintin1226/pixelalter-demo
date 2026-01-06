@@ -10,14 +10,14 @@ function loadUserProfile() {
       <img src="assets/avatar.png" alt="Avatar" class="avatar">
       <div class="user-info">
         <h2>Christine Pineda <span class="badge premium">Premium</span></h2>
-        <button class="edit-profile">Edit Profile</button>
+        <button class="edit-profile" style="color:white">Edit Profile</button>
       </div>
     </div>
 
     <!-- Stats Row -->
     <div class="profile-stats">
       <div class="stat">
-        <span class="number">12</span>
+        <span class="number">3</span>
         <span class="label">Projects</span>
       </div>
       <div class="stat">
@@ -281,3 +281,4 @@ function loadUserProfile() {
   });
 
 }
+
