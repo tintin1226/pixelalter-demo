@@ -203,8 +203,10 @@ function load2dPage() {
             if (panel.classList.contains('active') && panel.dataset.activeTool === button.className) {
                 panel.classList.remove('active', 'draw-active', 'assets-active');
                 panel.dataset.activeTool = '';
-                panel.querySelector('.panel-content').innerHTML = ''; // clear content
-            } else {
+                panel.querySelector('.panel-content').innerHTML = '';
+                closeAllDrawSubPanels();
+            }
+            else {
                 // Otherwise, show panel with new content
                 panel.classList.add('active');
                 panel.classList.remove('draw-active', 'assets-active');
@@ -356,4 +358,11 @@ function load2dPage() {
             }
         }, 0);
     });
+
+    function closeAllDrawSubPanels() {
+        document.getElementById('brush-panel')?.classList.remove('active');
+        document.getElementById('color-panel')?.classList.remove('active');
+        document.getElementById('layers-panel')?.classList.remove('active');
+    }
+
 }
