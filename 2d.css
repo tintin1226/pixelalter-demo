@@ -12,6 +12,11 @@
         width: 256px;
         height: 256px;
     }
+
+    .sub-panel {
+        width: 50vw;
+        left: 28vw;
+    }
 }
 
 .sub-panel {
@@ -241,6 +246,7 @@
 .layers-actions button:active {
     transform: scale(0.95);
 }
+
 
 
 
