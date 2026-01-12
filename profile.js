@@ -42,7 +42,7 @@ function loadUserProfile() {
     <div class="profile-content">
       <div class="tab-content" id="info">
         <h3>About Me</h3>
-        <p>Hello! I create pixel art, 2D/3D assets, and game sprites. Welcome to my profile!</p>
+        <p>Hello! I create pixel art, 2D/3D assets, and game sprites</p>
       </div>
 
       <div class="tab-content" id="projects" style="display:none">
@@ -281,4 +281,5 @@ function loadUserProfile() {
   });
 
 }
+
 
