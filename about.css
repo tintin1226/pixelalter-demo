@@ -1,0 +1,23 @@
+.about {
+  margin-top: 20vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  text-align: center;
+}
+
+.about h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.about-text {
+  max-width: 600px;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #d6cdee;
+  margin-bottom: 3rem;
+}
